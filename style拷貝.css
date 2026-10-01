@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+
+h1{
+  font-family: Arial, sans-serif;
+  color: royalblue;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+#banner
+{
+  background-color: lightgray;
+  text-align: center;
+  width: 1000px;
+  height: 300px;
+}
+
+#nav
+{
+  background-color: lightgray;
+  width: 100px;
+}
+
+#content
+{
+  background-color: lightgray;
+  width: 800px;
+}
+
+#supporting
+{
+  background-color: lightgray;
+  width: 100px;
+}
+
+
+#footer
+{
+  background-color: lightgray;
+  text-align: center;
+}
