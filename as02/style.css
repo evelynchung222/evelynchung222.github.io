@@ -11,13 +11,12 @@ body {
 
 #banner
 {
-  background-color: pink;
-  text-align: center;
   width: 800px;
   height: 100px;
+  background-color: beige;
   opacity: 0.7;
   clear: both;
-  position:fixed;
+  position: fixed;
 }
 
 #banner-placeholder
@@ -27,32 +26,27 @@ body {
 
 #nav
 {
-  background-color: lightgray;
   width: 100px;
-  /* height:200px; */
-  /* background-color: lightpink */
-  /* float: left; */
   position: fixed;
-
 }
 
-#ul
+ul
 {
   padding-left: 0;
 }
 
 li
 {
-  display:block;
-  text-align:center;
+  display: block;
+  text-align: center;
   margin-bottom: 5px;
-  background-color : lightgray;
+  background-color: lightgray;
 }
 
 li:hover{
-    background-color:pink;
+    background-color: pink;
 }
-ul a{
+ul a {
     text-decoration: none;
 }
 
@@ -63,40 +57,36 @@ ul a{
 
 #content
 {
-  background-color: lightgray;
   width: 600px;
-  float:left;
+  float: left;
 }
 
 #supporting
 {
-  background-color: lightgray;
   width: 100px;
   height: 150px;
+  background-color: pink;
   float: left;
 }
 
 #footer
 {
-  background-color: lightgray;
-  text-align: center;
   width: 800px;
   height: 50px;
+  background-color: gray;
   clear: both;
 }
 
 .container {
-  overflow: hidden; /* Clearfix */
-} 
-
-section {
-     height:100vh;
-/*     scroll-margin-top: 100px;  */
-    padding-top: 100px;
-    margin-top: -100px;    
-    position:relative;
+  overflow: hidden; /* Clear floats */
 }
 
-.text-container{
+section {
+    height: 100vh;
+    scroll-margin-top: 100px;
+    position: relative;
+}
+
+.text-container {
     padding: 5px;
 }
