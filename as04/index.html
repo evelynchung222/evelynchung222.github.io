@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="身障運動員的生存挑戰：六個連續情境的互動式網頁故事草稿。">
+  <title>身障運動員的生存挑戰</title>
+  <style>
+    :root {
+      --ink: #18232d;
+      --paper: #f5f0e8;
+      --warm: #e3ad45;
+      --blue: #34546b;
+      --cream: #fffaf2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--ink);
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 20;
+      top: 0.75rem;
+      left: 0.75rem;
+      padding: 0.7rem 1rem;
+      color: var(--cream);
+      background: var(--ink);
+      border-radius: 999px;
+      transform: translateY(-160%);
+      transition: transform 180ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .site-banner {
+      min-height: 18svh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 7vw, 8rem);
+      color: var(--cream);
+      background:
+        linear-gradient(120deg, rgba(24, 35, 45, 0.98), rgba(52, 84, 107, 0.96)),
+        radial-gradient(circle at 85% 20%, rgba(227, 173, 69, 0.5), transparent 28%);
+      border-bottom: 0.45rem solid var(--warm);
+    }
+
+    .banner-copy {
+      max-width: 48rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.7rem;
+      color: #f5ca73;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 5rem);
+      line-height: 1.05;
+      letter-spacing: -0.055em;
+    }
+
+    .banner-note {
+      max-width: 18rem;
+      margin: 0;
+      color: rgba(255, 250, 242, 0.78);
+      font-size: clamp(0.85rem, 1.5vw, 1rem);
+      line-height: 1.7;
+    }
+
+    .scroll-cue {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 1.25rem;
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .scroll-cue::after {
+      content: "↓";
+      display: grid;
+      width: 1.8rem;
+      height: 1.8rem;
+      place-items: center;
+      color: var(--ink);
+      background: var(--warm);
+      border-radius: 50%;
+    }
+
+    .story {
+      overflow: clip;
+      background: var(--ink);
+    }
+
+    .story-panel {
+      position: relative;
+      min-height: 100svh;
+      isolation: isolate;
+      overflow: hidden;
+      background: #18232d;
+    }
+
+    .story-panel::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      z-index: 1;
+      height: 42%;
+      pointer-events: none;
+      background: linear-gradient(0deg, rgba(10, 18, 24, 0.78), transparent);
+    }
+
+    .story-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .story-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(90deg, rgba(10, 18, 24, 0.48), transparent 55%);
+      mix-blend-mode: multiply;
+    }
+
+    .story-caption {
+      position: absolute;
+      z-index: 2;
+      right: clamp(1.25rem, 7vw, 8rem);
+      bottom: clamp(1.5rem, 8vh, 5rem);
+      left: clamp(1.25rem, 7vw, 8rem);
+      max-width: 42rem;
+      color: var(--cream);
+      text-shadow: 0 0.15rem 1rem rgba(0, 0, 0, 0.35);
+    }
+
+    .story-index {
+      margin: 0 0 0.45rem;
+      color: #f5ca73;
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+    }
+
+    .story-caption h2 {
+      margin: 0 0 0.65rem;
+      font-size: clamp(1.6rem, 4vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.045em;
+    }
+
+    .story-caption p {
+      max-width: 35rem;
+      margin: 0;
+      font-size: clamp(0.95rem, 1.7vw, 1.25rem);
+      line-height: 1.6;
+    }
+
+    .reveal {
+      opacity: 0;
+      transition: opacity 900ms ease, transform 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .from-right {
+      transform: translateX(18vw);
+    }
+
+    .from-left {
+      transform: translateX(-18vw);
+    }
+
+    .from-bottom {
+      transform: translateY(18vh);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .story-panel.from-right,
+    .story-panel.from-left,
+    .story-panel.from-bottom {
+      opacity: 0;
+    }
+
+    .story-panel.is-visible {
+      opacity: 1;
+    }
+
+    .story-panel.from-right.is-visible,
+    .story-panel.from-left.is-visible,
+    .story-panel.from-bottom.is-visible {
+      transform: translate3d(0, 0, 0);
+    }
+
+    .story-panel.from-right,
+    .story-panel.from-left,
+    .story-panel.from-bottom {
+      transition: opacity 900ms ease, transform 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .site-footer {
+      position: relative;
+      min-height: 70svh;
+      display: grid;
+      place-items: center;
+      padding: 5rem 1.25rem;
+      color: var(--cream);
+      text-align: center;
+      background:
+        linear-gradient(rgba(24, 35, 45, 0.94), rgba(24, 35, 45, 0.98)),
+        radial-gradient(circle at 50% 10%, rgba(227, 173, 69, 0.42), transparent 35%);
+    }
+
+    .footer-inner {
+      max-width: 46rem;
+    }
+
+    .footer-inner h2 {
+      margin: 0 0 1rem;
+      font-size: clamp(2rem, 6vw, 5rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .footer-inner p {
+      margin: 0 auto 1.5rem;
+      color: rgba(255, 250, 242, 0.8);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .footer-meta {
+      display: inline-block;
+      padding-top: 1rem;
+      color: #f5ca73;
+      border-top: 1px solid rgba(245, 202, 115, 0.55);
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    .back-to-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+      padding: 0.8rem 1.1rem;
+      color: var(--ink);
+      background: var(--warm);
+      border-radius: 999px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+      .site-banner {
+        display: block;
+      }
+
+      .banner-note {
+        max-width: 32rem;
+        margin-top: 1.25rem;
+      }
+
+      .story-image {
+        object-position: 58% center;
+      }
+
+      .story-caption {
+        bottom: 1.5rem;
+      }
+
+      .story-caption h2 {
+        font-size: clamp(1.6rem, 9vw, 2.6rem);
+      }
+
+      .story-caption p {
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .reveal,
+      .story-panel.from-right,
+      .story-panel.from-left,
+      .story-panel.from-bottom {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#story">跳到故事內容</a>
+
+  <header class="site-banner" id="top">
+    <div class="banner-copy">
+      <p class="eyebrow">INTERACTIVE STORYBOARD · ASSIGNMENT 04</p>
+      <h1>身障運動員的生存挑戰</h1>
+      <a class="scroll-cue" href="#story">向下探索六個情境</a>
+    </div>
+    <p class="banner-note">一場比賽之前，還有訓練、工作、交通、經費與身體狀況，需要一起被安排。</p>
+  </header>
+
+  <main class="story" id="story">
+    <section class="story-panel is-visible" aria-labelledby="story-title-01">
+      <img class="story-image" src="01-morning-departure.png" alt="運動員在家門口背著球袋，準備走向訓練場地。">
+      <div class="story-caption">
+        <p class="story-index">01 / 06</p>
+        <h2 id="story-title-01">走出家門之前</h2>
+        <p>訓練、課業與工作，從早晨就開始分配。</p>
+      </div>
+    </section>
+
+    <section class="story-panel from-right reveal" aria-labelledby="story-title-02">
+      <img class="story-image" src="02-training-notification.png" alt="運動員坐在羽球場旁查看手機，遠處有人正在場上訓練。">
+      <div class="story-caption">
+        <p class="story-index">02 / 06</p>
+        <h2 id="story-title-02">比賽通知來了</h2>
+        <p>比賽增加，也意味著積分、旅費與參賽成本。</p>
+      </div>
+    </section>
+
+    <section class="story-panel from-right reveal" aria-labelledby="story-title-03">
+      <img class="story-image" src="03-work-training-conflict.png" alt="運動員在辦公桌前看著手機，球袋與球拍放在一旁。">
+      <div class="story-caption">
+        <p class="story-index">03 / 06</p>
+        <h2 id="story-title-03">請假不是沒有代價</h2>
+        <p>一邊工作、一邊訓練，常要處理職務代理與時間衝突。</p>
+      </div>
+    </section>
+
+    <section class="story-panel from-bottom reveal" aria-labelledby="story-title-04">
+      <img class="story-image" src="04-access-route.png" alt="運動員站在比賽場館外，看著階梯與無障礙坡道形成的兩條路徑。">
+      <div class="story-caption">
+        <p class="story-index">04 / 06</p>
+        <h2 id="story-title-04">先抵達，才有比賽</h2>
+        <p>交通、場地與無障礙條件，可能在比賽前就先成為門檻。</p>
+      </div>
+    </section>
+
+    <section class="story-panel from-left reveal" aria-labelledby="story-title-05">
+      <img class="story-image" src="05-recovery-cost.png" alt="運動員在復健空間進行手腕伸展，球拍與球袋放在旁邊。">
+      <div class="story-caption">
+        <p class="story-index">05 / 06</p>
+        <h2 id="story-title-05">意外成本</h2>
+        <p>受傷可能中斷訓練、錯過積分賽，也重新定義下一步。</p>
+      </div>
+    </section>
+
+    <section class="story-panel from-left reveal" aria-labelledby="story-title-06">
+      <img class="story-image" src="06-open-futures.png" alt="運動員站在結合辦公空間與羽球場的場地，前方有三條不同顏色的路徑。">
+      <div class="story-caption">
+        <p class="story-index">06 / 06</p>
+        <h2 id="story-title-06">不只一條路</h2>
+        <p>運動、工作、學業與家庭，可以成為需要協調的多重身分。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer from-bottom reveal" id="end">
+    <div class="footer-inner">
+      <h2>故事仍在進行</h2>
+      <p>身障運動員的生活，不只由成績決定，也由每一次資源、時間、身體與選擇共同組成。</p>
+      <p class="footer-meta">課堂作業初稿｜圖片為 AI 生成視覺草稿｜角色為合成示意角色，不對應單一受訪者</p>
+      <a class="back-to-top" href="#top">回到頁首 ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    const revealItems = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, {
+      threshold: 0.42,
+    });
+
+    revealItems.forEach((item) => revealObserver.observe(item));
+  </script>
+</body>
+</html>
