@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>網頁範例｜Banner 與置頂導覽</title>
+<style>
+/* 單一檔案，不需下載任何外部套件。 */
+:root { --nav-height:56px; }
+*,*::before,*::after { box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:var(--nav-height); }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif; font-size:16px; font-weight:400; line-height:1.5; color:#212529; background:#fff; }
+h1,h2,h3 { margin-top:0; margin-bottom:.5rem; font-weight:500; line-height:1.2; }
+h1 { font-size:2.5rem; } h2 { font-size:2rem; } h3 { font-size:1.75rem; }
+p { margin-top:0; margin-bottom:1rem; }
+/* 頁首與各區段 Banner 滿版寬度；內文採置中窄欄。 */
+.page-banner { width:100%; padding:3rem 15px; background:#9317b8; text-align:center; }
+.navbar { position:sticky; top:0; z-index:1000; display:flex; align-items:center; padding:8px 16px; min-height:56px; background:#f8f9fa; }
+.navbar a { text-decoration:none; transition:background-color .2s,color .2s; }
+.navbar-brand { display:inline-block; margin-right:16px; padding:5px 0; font-size:20px; line-height:30px; color:rgba(0,0,0,.9); }
+.navbar ul { display:flex; margin:0; padding:0; list-style:none; }
+.nav-link { display:block; padding:8px; color:rgba(0,0,0,.5); border-radius:3px; }
+.nav-link:hover,.nav-link:focus-visible { color:rgba(0,0,0,.7); background:transparent; }
+.navbar-brand:hover { color:#117a8b; }
+a:focus-visible { outline:3px solid #117a8b; outline-offset:2px; }
+section { width:100%; padding:3rem 0; }
+.banner-div { width:100%; height:100vh; background:#fd98e8; color:#fff; text-align:center; display:flex; flex-direction:column; justify-content:center; }
+.content-div { padding:2rem; min-height:calc(200vh - 8rem); background:#f0f0f0; }
+.container { width:100%; margin:0 auto; padding:0 15px; }
+.row { display:flex; flex-wrap:wrap; margin:0 -15px; }
+.content-column { width:100%; padding:0 2rem; }
+.content-bg { padding:1rem; border-radius:5px; background:#dcdcdc; }
+@media(min-width:576px) { .container { max-width:540px; } }
+@media(min-width:768px) { .container { max-width:720px; } .content-column { width:66.666667%; margin-left:16.666667%; } }
+@media(min-width:992px) { .container { max-width:960px; } }
+@media(min-width:1200px) { .container { max-width:1140px; } }
+@media(max-width:575px) { .content-div { padding:2rem 1rem; } .content-column { padding:0 1rem; } }
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .navbar a { transition:none; } }
+</style>
+</head>
+<body>
+<header id="top" class="page-banner"><h1>這裡是Banner</h1></header>
+<nav class="navbar" aria-label="主要導覽">
+<a class="navbar-brand" href="#top">首頁</a>
+<ul>
+<li><a class="nav-link" href="#section1">區段1</a></li>
+<li><a class="nav-link" href="#section2">區段2</a></li>
+<li><a class="nav-link" href="#section3">區段3</a></li>
+</ul>
+</nav>
+<main>
+<section aria-labelledby="title1">
+<div class="banner-div" id="section1"><h2 id="title1">區段1 Banner</h2></div>
+<div class="content-div"><div class="container"><div class="row"><div class="content-column"><div class="content-bg">
+<h3>區段1 內容</h3>
+<p>這是區段1的內容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in libero nec dolor luctus bibendum.</p>
+<p>Quisque vel quam nec massa dictum varius ac eu urna. Suspendisse ut tristique ex.</p>
+</div></div></div></div></div>
+</section>
+<section aria-labelledby="title2">
+<div class="banner-div" id="section2"><h2 id="title2">區段2 Banner</h2></div>
+<div class="content-div"><div class="container"><div class="row"><div class="content-column"><div class="content-bg">
+<h3>區段2 內容</h3>
+<p>這是區段2的內容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in libero nec dolor luctus bibendum.</p>
+<p>Quisque vel quam nec massa dictum varius ac eu urna. Suspendisse ut tristique ex.</p>
+</div></div></div></div></div>
+</section>
+<section aria-labelledby="title3">
+<div class="banner-div" id="section3"><h2 id="title3">區段3 Banner</h2></div>
+<div class="content-div"><div class="container"><div class="row"><div class="content-column"><div class="content-bg">
+<h3>區段3 內容</h3>
+<p>這是區段3的內容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in libero nec dolor luctus bibendum.</p>
+<p>Quisque vel quam nec massa dictum varius ac eu urna. Suspendisse ut tristique ex.</p>
+</div></div></div></div></div>
+</section>
+</main>
+<script>
+// 以實際導覽列高度修正錨點，視窗縮放時仍不會遮住目標。
+const navbar = document.querySelector('.navbar');
+function updateNavHeight() {
+  document.documentElement.style.setProperty('--nav-height', navbar.getBoundingClientRect().height + 'px');
+}
+updateNavHeight();
+if ('ResizeObserver' in window) new ResizeObserver(updateNavHeight).observe(navbar);
+window.addEventListener('resize', updateNavHeight);
+// 點擊每個選單後以實際列高計算終點；重複點擊同一選單仍可定位。
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+function moveTo(target, smooth) {
+  const top = target.id === 'top' ? 0 : target.getBoundingClientRect().top + window.scrollY - navbar.getBoundingClientRect().height;
+  window.scrollTo({ top: Math.max(0, top), behavior: smooth && !reducedMotion.matches ? 'smooth' : 'instant' });
+}
+navbar.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', event => {
+    const target = document.getElementById(link.hash.slice(1));
+    if (!target || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    if (location.hash !== link.hash) history.pushState(null, '', link.hash);
+    moveTo(target, true);
+  });
+});
+function restoreHash() {
+  const target = document.getElementById(location.hash.slice(1));
+  if (target) moveTo(target, false);
+}
+window.addEventListener('load', restoreHash);
+window.addEventListener('popstate', restoreHash);
+// 保留原生錨點與瀏覽器前後頁操作；CSS 負責平順捲動與位置補償。
+</script>
+</body>
+</html>
