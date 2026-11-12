@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>五個區塊的網頁捲動設計</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      /* 點選導覽連結時平順捲動 */
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft JhengHei", sans-serif;
+    }
+
+    /* 固定在畫面上方的導覽列 */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+
+      width: 100%;
+      padding: 14px 24px;
+
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    nav a {
+      display: block;
+      padding: 8px 12px;
+      border-radius: 4px;
+
+      color: #333;
+      text-decoration: none;
+      font-size: 15px;
+
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      background-color: #333;
+      color: white;
+    }
+
+    /*
+      第一、三、四、五頁的外層高度。
+      300vh 提供捲動距離，讓內層畫面有時間停留。
+    */
+    .parent {
+      height: 300vh;
+    }
+
+    /*
+      實際顯示的顏色區塊高度是 100vh。
+      到達畫面頂端後固定，直到父區塊結束。
+    */
+    .sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    /* 五個頁面共同的文字排版 */
+    .scene {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      width: 100%;
+      padding: 80px 24px;
+
+      color: white;
+      text-align: center;
+    }
+
+    .scene h1 {
+      margin: 0 0 16px;
+      font-size: clamp(42px, 6vw, 72px);
+    }
+
+    .scene p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    /* 第一頁 */
+    #scene01 {
+      background-color: #1d9aaf;
+    }
+
+    /*
+      第二頁：200vh，使用一般捲動。
+      不使用 position: sticky。
+    */
+    #page2 {
+      height: 200vh;
+      background-color: #f06449;
+    }
+
+    /* 第三頁 */
+    #scene03 {
+      background-color: #709a70;
+    }
+
+    /* 第四頁 */
+    #scene04 {
+      background-color: #76669b;
+    }
+
+    /* 第五頁 */
+    #scene05 {
+      background-color: #d99b46;
+    }
+
+    /* 手機畫面 */
+    @media (max-width: 480px) {
+      nav {
+        justify-content: center;
+        gap: 2px;
+        padding: 10px 6px;
+      }
+
+      nav a {
+        padding: 8px;
+        font-size: 14px;
+      }
+    }
+
+    /* 尊重使用者的減少動態效果設定 */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      nav a {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav aria-label="頁面導覽">
+    <a href="#page1">第一頁</a>
+    <a href="#page2">第二頁</a>
+    <a href="#page3">第三頁</a>
+    <a href="#page4">第四頁</a>
+    <a href="#page5">第五頁</a>
+  </nav>
+
+  <main>
+
+    <!-- 第一頁：顏色區塊 100vh，sticky 捲動 -->
+    <section id="page1" class="parent">
+      <div id="scene01" class="sticky scene">
+        <h1>第一頁</h1>
+        <p>向下捲動，前往下一頁。</p>
+      </div>
+    </section>
+
+    <!-- 第二頁：200vh，一般捲動 -->
+    <section id="page2" class="scene">
+      <h1>第二頁</h1>
+      <p>這一頁的高度是兩個畫面，可以一般捲動。</p>
+    </section>
+
+    <!-- 第三頁：顏色區塊 100vh，sticky 捲動 -->
+    <section id="page3" class="parent">
+      <div id="scene03" class="sticky scene">
+        <h1>第三頁</h1>
+        <p>繼續向下捲動，查看下一個區塊。</p>
+      </div>
+    </section>
+
+    <!-- 第四頁：顏色區塊 100vh，sticky 捲動 -->
+    <section id="page4" class="parent">
+      <div id="scene04" class="sticky scene">
+        <h1>第四頁</h1>
+        <p>繼續向下捲動，前往最後一頁。</p>
+      </div>
+    </section>
+
+    <!-- 第五頁：顏色區塊 100vh，sticky 捲動 -->
+    <section id="page5" class="parent">
+      <div id="scene05" class="sticky scene">
+        <h1>第五頁</h1>
+        <p>已經來到最後一頁。</p>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
