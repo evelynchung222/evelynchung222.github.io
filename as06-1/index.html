@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>五頁捲動練習</title>
+
+  <style>
+    /* 讓寬度與高度的計算包含 padding 和 border */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      /* 點選導覽連結時，平順捲動至對應區塊 */
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      color: #ffffff;
+    }
+
+    /* 固定在畫面上方的導覽列 */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+
+      width: 100%;
+      padding: 14px 12px;
+
+      background-color: rgba(20, 20, 20, 0.75);
+    }
+
+    .navbar ul {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .navbar a {
+      display: block;
+      padding: 8px 14px;
+
+      border-radius: 20px;
+      color: #ffffff;
+      font-size: 14px;
+      text-decoration: none;
+
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .navbar a:hover,
+    .navbar a:focus-visible {
+      background-color: #ffffff;
+      color: #222222;
+    }
+
+    /* 第一、三、四、五頁的外層容器 */
+    .sticky-container {
+      height: 300vh;
+    }
+
+    /* 外層容器中的實際顯示區塊 */
+    .sticky-page {
+      position: sticky;
+      top: 0;
+
+      height: 100vh;
+    }
+
+    /* 第二頁：一般捲動，不使用 sticky */
+    .normal-page {
+      height: 200vh;
+    }
+
+    /* 讓各頁的標題和文字置中 */
+    .page-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      padding: 100px 24px 40px;
+      text-align: center;
+    }
+
+    .page-content h1 {
+      margin: 0 0 18px;
+      font-size: clamp(40px, 7vw, 72px);
+    }
+
+    .page-content p {
+      max-width: 600px;
+      margin: 0;
+      font-size: clamp(16px, 2.5vw, 20px);
+      line-height: 1.8;
+    }
+
+    /* 每一頁的背景顏色 */
+    .page-one {
+      background-color: #557a95;
+    }
+
+    .page-two {
+      background-color: #75a98c;
+    }
+
+    .page-three {
+      background-color: #e4ac76;
+    }
+
+    .page-four {
+      background-color: #ae879d;
+    }
+
+    .page-five {
+      background-color: #6e778d;
+    }
+
+    /* 手機版：縮小導覽列間距 */
+    @media (max-width: 480px) {
+      .navbar {
+        padding: 10px 4px;
+      }
+
+      .navbar ul {
+        gap: 2px;
+      }
+
+      .navbar a {
+        padding: 8px;
+        font-size: 13px;
+      }
+    }
+
+    /* 尊重使用者的減少動態效果設定 */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .navbar a {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 固定導覽列 -->
+  <nav class="navbar" aria-label="頁面導覽">
+    <ul>
+      <li><a href="#page1">第一頁</a></li>
+      <li><a href="#page2">第二頁</a></li>
+      <li><a href="#page3">第三頁</a></li>
+      <li><a href="#page4">第四頁</a></li>
+      <li><a href="#page5">第五頁</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- 第一頁：外層 300vh，內層 sticky 100vh -->
+    <section id="page1" class="sticky-container">
+      <div class="sticky-page page-content page-one">
+        <h1>第一頁</h1>
+        <p>繼續往下捲動，這一頁會暫時停留在畫面中。</p>
+      </div>
+    </section>
+
+    <!-- 第二頁：一般捲動，高度 200vh -->
+    <section id="page2" class="normal-page page-content page-two">
+      <h1>第二頁</h1>
+      <p>這一頁使用一般捲動，整個區塊的高度是兩個畫面。</p>
+    </section>
+
+    <!-- 第三頁：外層 300vh，內層 sticky 100vh -->
+    <section id="page3" class="sticky-container">
+      <div class="sticky-page page-content page-three">
+        <h1>第三頁</h1>
+        <p>當這一頁到達畫面頂端後，也會暫時停留。</p>
+      </div>
+    </section>
+
+    <!-- 第四頁：外層 300vh，內層 sticky 100vh -->
+    <section id="page4" class="sticky-container">
+      <div class="sticky-page page-content page-four">
+        <h1>第四頁</h1>
+        <p>繼續捲動，直到這一頁的外層容器結束。</p>
+      </div>
+    </section>
+
+    <!-- 第五頁：外層 300vh，內層 sticky 100vh -->
+    <section id="page5" class="sticky-container">
+      <div class="sticky-page page-content page-five">
+        <h1>第五頁</h1>
+        <p>這是最後一頁，感謝你看到這裡！</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
